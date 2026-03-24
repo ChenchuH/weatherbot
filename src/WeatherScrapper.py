@@ -1,19 +1,23 @@
+from rich.console import Console
+from rich.table import Table
 import requests
 
-url = "https://api.weather.gov/points/33.83,-118.34"
+console = Console()
 
+url = "https://api.weather.gov/points/33.83,-118.34"
 headers = {"User-Agent": "weather-app (ynchenchuh@gmail.com)"}
 
-# get forecast URL
 data = requests.get(url, headers=headers).json()
 forecast_url = data["properties"]["forecast"]
-
-# get forecast data
 forecast = requests.get(forecast_url, headers=headers).json()
 
-# print each day
-for f in forecast["properties"]["periods"]:
-    f_temp = f["temperature"]
-    c_temp = (f_temp-32)*(5/9)
+table = Table(title="Weather Forecast")
+table.add_column("Day", style="bold")
+table.add_column("Temp (C)", justify="center")
+table.add_column("Forecast")
 
-    print(f["name"], "-", round(c_temp,1), "C")
+for f in forecast["properties"]["periods"]:
+    c_temp = (f["temperature"] - 32) * 5 / 9
+    table.add_row(f["name"],f"{round(c_temp,1)}",f["shortForecast"])
+
+console.print(table)
