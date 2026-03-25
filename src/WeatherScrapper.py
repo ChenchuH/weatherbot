@@ -2,21 +2,23 @@ from rich.console import Console
 from rich.table import Table
 from rich import box
 import requests
-import cords
+import cord_helper
 
-lat, lon = cords.locator()
+lat, lon = cord_helper.locator()
 
 console = Console()
 
 url = (f"https://api.weather.gov/points/{lat},{lon}")
-
 headers = {"User-Agent": "weather-app (ynchenchuh@gmail.com)"}
 
-data = requests.get(url, headers=headers).json()
-forecast_url = data["properties"]["forecast"]
-forecast = requests.get(forecast_url, headers=headers).json()
+with console.status("Fetching weather details...", spinner="dots"):
+    data = requests.get(url, headers=headers).json()
+    forecast_url = data["properties"]["forecast"]
+    forecast = requests.get(forecast_url, headers=headers).json()
 
 periods = forecast["properties"]["periods"]
+
+console.clear()
 
 table = Table(box=box.MINIMAL)
 table.add_column("Day", justify="center")
