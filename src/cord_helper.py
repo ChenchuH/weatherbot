@@ -11,13 +11,20 @@ def locator():
             print("No Location found, please try again: ")
         else:
             loc_conf=input(f"Is this your addresss (y/n) {location.address}: ").lower()
-            if loc_conf == "y":
-                return location.latitude, location.longitude
+            if loc_conf in ("y", "yes"):
+                return location.latitude, location.longitude, location.address
+            elif loc_conf in ("n", "no"):
+                continue
             else:
+                print("Please print (y/n)")
                 continue
 
+
+
+
 def main():
-    lat, lon = locator()
+    lat, lon, address = locator()
 
 if __name__ == "__main__":
     main()
+
