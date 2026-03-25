@@ -5,7 +5,6 @@ def locator():
 
     while True:
         address = input("Please enter your address: ").strip().lower()
-
         location = geolocator.geocode(address)
 
         if location is None:
