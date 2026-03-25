@@ -20,7 +20,7 @@ periods = forecast["properties"]["periods"]
 
 console.clear()
 
-table = Table(box=box.MINIMAL)
+table = Table(box=box.ASCII2)
 table.add_column("Day", justify="center")
 table.add_column("Temp (C)", justify="center")
 table.add_column("Forecast",)
